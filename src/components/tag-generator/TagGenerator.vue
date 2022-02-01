@@ -5,8 +5,18 @@
         <v-toolbar-title>Generate Tags</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn
+          class="white--text"
           color="cyan"
-          light
+          small
+          :disabled="noTagsGenerated"
+          @click="copyValue"
+        >
+          <v-icon left>mdi-content-copy</v-icon>
+          Copy
+        </v-btn>
+        <v-btn
+          class="ml-4 white--text"
+          color="cyan"
           small
           @click="generateTags()"
           :disabled="!atLeastOneCategorySelected"
@@ -16,13 +26,7 @@
         </v-btn>
       </v-toolbar>
       <v-container fluid>
-        <v-textarea
-          :value="generatedTags"
-          outlined
-          readonly
-          label="Generated Tags"
-          auto-grow
-        ></v-textarea>
+        <v-textarea :value="generatedTags" solo readonly auto-grow></v-textarea>
       </v-container>
     </v-card>
   </v-container>
@@ -33,10 +37,16 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   computed: {
     ...mapGetters(["generatedTags", "atLeastOneCategorySelected"]),
+    noTagsGenerated() {
+      return this.generatedTags.length <= 0;
+    },
   },
 
   methods: {
     ...mapActions(["generateTags"]),
+    async copyValue() {
+      await navigator.clipboard.writeText(this.generatedTags);
+    },
   },
 };
 </script>
