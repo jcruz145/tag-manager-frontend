@@ -2,33 +2,31 @@
   <v-container>
     <v-expansion-panel>
       <v-expansion-panel-header>
-        <template v-slot:default="{ open }">
+        <template>
           <v-row no-gutters>
             <v-col cols="12"> Categories </v-col>
-            <v-fade-transition leave-absolute>
-              <v-col cols="12" v-if="!open">
-                <v-container>
-                  <span
-                    class="secondary--text"
-                    v-if="!selectedCategories.length > 0"
+            <v-col cols="12">
+              <v-container>
+                <span
+                  class="secondary--text"
+                  v-if="!selectedCategories.length > 0"
+                >
+                  Select atleast 1 category
+                </span>
+                <v-row v-else>
+                  <v-col
+                    v-for="category in selectedCategories"
+                    :key="category"
+                    class="shrink"
                   >
-                    Select atleast 1 category
-                  </span>
-                  <v-row v-else>
-                    <v-col
-                      v-for="category in selectedCategories"
-                      :key="category"
-                      class="shrink"
-                    >
-                      <v-chip label color="cyan" text-color="white">
-                        <v-icon left>mdi-check</v-icon>
-                        {{ category }}
-                      </v-chip>
-                    </v-col>
-                  </v-row>
-                </v-container>
-              </v-col>
-            </v-fade-transition>
+                    <v-chip label color="cyan" text-color="white">
+                      <v-icon left>mdi-check</v-icon>
+                      {{ category }}
+                    </v-chip>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-col>
           </v-row>
         </template>
       </v-expansion-panel-header>
@@ -100,10 +98,16 @@ export default {
     ...mapGetters(["categories", "selectedCategories"]),
     filteredCategories() {
       const search = this.search.toLowerCase();
-      if (!search) return this.categories;
+
+      if (!search && this.selectedCategories.length <= 0)
+        return this.categories;
+
       return this.categories.filter((item) => {
         const text = item.id.toLowerCase();
-        return text.indexOf(search) > -1;
+
+        return this.selectedCategories.includes(item.id)
+          ? false
+          : text.indexOf(search) > -1;
       });
     },
   },
