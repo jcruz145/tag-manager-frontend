@@ -98,7 +98,7 @@ export default {
     },
     categoriesError() {
       return (
-        this.stepperData.categoriesSeen &&
+        (this.stepperData.tracker > 2 || this.stepperData.categoriesSeen) &&
         !this.atLeastOneCategorySelected &&
         this.stepperData.tracker != 2
       );

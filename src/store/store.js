@@ -85,6 +85,10 @@ export const store = new Vuex.Store({
       state.histories.forEach(history => {
         history.value = '';
       });
+      state.stepper.categoriesSeen = false;
+      state.stepper.welcomeSeen = true;
+      state.stepper.historicalSeen = false;
+      state.stepper.tracker = 2;
     },
     clearHistory: (state, id) => {
       const histIndex = helpers.getIndexFromObjectArray(state.histories, id);
