@@ -11,6 +11,7 @@
     <v-main>
       <v-container>
         <v-stepper vertical v-model="stepperCount">
+          <!-- STEPPER 1 - Welcome to TagManager -->
           <v-stepper-step
             step="1"
             @click="stepperCount = 1"
@@ -23,6 +24,8 @@
             helping you choose the right hashtags to drive meaningful and
             efficient discovery of your content.
           </v-stepper-content>
+
+          <!-- STEPPER 2 - Select Categories -->
           <v-stepper-step
             step="2"
             @click="stepperCount = 2"
@@ -37,6 +40,8 @@
           <v-stepper-content step="2">
             <category-selector></category-selector>
           </v-stepper-content>
+
+          <!-- STEPPER 3 - Historical Tags -->
           <v-stepper-step
             step="3"
             @click="stepperCount = 3"
@@ -47,6 +52,16 @@
           <v-stepper-content step="3">
             <historical-tags></historical-tags>
           </v-stepper-content>
+
+          <!-- STEPPER 4 - Select Quantity -->
+          <v-stepper-step
+            step="4"
+            @click="stepperCount = 4"
+            :complete="completeHistories.length > 0"
+          >
+            Select Quantity
+          </v-stepper-step>
+          <v-stepper-content step="4"> </v-stepper-content>
         </v-stepper>
       </v-container>
     </v-main>
