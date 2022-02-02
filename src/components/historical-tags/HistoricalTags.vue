@@ -1,6 +1,14 @@
 <template>
   <v-row no-gutters>
     <v-col cols="12">
+      <v-alert colored-border type="info" class="pa-0" v-if="true">
+        <small
+          >Optionally, you can paste in your most recently used tags below, this
+          helps make sure you aren't using the same tag too many times!</small
+        >
+      </v-alert>
+    </v-col>
+    <v-col cols="12">
       <v-chip
         v-for="history in histories"
         :key="history.id"
@@ -14,7 +22,8 @@
       >
         {{ history.label }}
       </v-chip>
-      <v-spacer></v-spacer>
+    </v-col>
+    <v-col cols="12">
       <v-btn
         :color="noCompleteHistories ? '' : 'cyan'"
         :class="noCompleteHistories ? '' : 'white--text'"

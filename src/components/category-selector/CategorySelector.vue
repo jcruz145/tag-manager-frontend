@@ -1,8 +1,13 @@
 <template>
   <v-container>
-    <span class="secondary--text" v-if="!selectedCategories.length > 0">
-      Select atleast 1 category
-    </span>
+    <v-alert
+      colored-border
+      type="info"
+      class="pa-0"
+      v-if="!selectedCategories.length > 0"
+    >
+      <small> Select atleast 1 category that best describes your post.</small>
+    </v-alert>
     <v-container v-else class="pl-0">
       <v-chip
         v-for="category in selectedCategories"
@@ -45,9 +50,9 @@
           v-model="search"
           full-width
           hide-details
-          label="search"
+          label="filter"
           single-line
-          prepend-inner-icon="mdi-magnify"
+          prepend-inner-icon="mdi-filter"
         ></v-text-field>
       </v-col>
 

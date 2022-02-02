@@ -23,6 +23,7 @@
             This application helps you optimize your social media posts by
             helping you choose the right hashtags to drive meaningful and
             efficient discovery of your content.
+            <v-btn small class="ml-1 my-4" @click="nextStep"> next </v-btn>
           </v-stepper-content>
 
           <!-- STEPPER 2 - Select Categories -->
@@ -113,7 +114,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(["clearAppData", "setStepperTracker"]),
+    ...mapActions(["clearAppData", "setStepperTracker", "nextStep"]),
   },
 };
 </script>
