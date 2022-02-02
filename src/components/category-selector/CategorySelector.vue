@@ -1,89 +1,77 @@
 <template>
   <v-container>
-    <v-expansion-panel>
-      <v-expansion-panel-header>
-        <template>
-          <v-row no-gutters>
-            <v-col cols="12"> Categories </v-col>
-            <v-col cols="12">
-              <v-container>
-                <span
-                  class="secondary--text"
-                  v-if="!selectedCategories.length > 0"
-                >
-                  Select atleast 1 category
-                </span>
-                <v-row v-else>
-                  <v-col
-                    v-for="category in selectedCategories"
-                    :key="category"
-                    class="shrink"
-                  >
-                    <v-chip label color="cyan" text-color="white">
-                      <v-icon left>mdi-check</v-icon>
-                      {{ category }}
-                    </v-chip>
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-col>
-          </v-row>
-        </template>
-      </v-expansion-panel-header>
-      <v-expansion-panel-content>
-        <v-toolbar flat color="transparent">
-          <v-btn
-            v-if="selectedCategories.length > 0"
-            color="gray"
-            text-color="white"
-            @click="clearCategorySelects()"
-          >
-            <v-icon left>mdi-autorenew</v-icon>
-            Reset
-          </v-btn>
-          <v-toolbar-title v-else>Select Tag Categories</v-toolbar-title>
-          <v-spacer> </v-spacer>
-          <v-btn v-if="!search" icon @click="$refs.search.focus()"
-            ><v-icon>mdi-magnify</v-icon></v-btn
-          >
-          <v-btn v-else icon @click="resetSearch()"
-            ><v-icon>mdi-close</v-icon></v-btn
-          >
-        </v-toolbar>
-        <v-container class="py-0">
-          <v-row align="center" justify="start">
-            <v-col cols="12">
-              <v-text-field
-                ref="search"
-                v-model="search"
-                full-width
-                hide-details
-                label="search"
-                single-line
-              ></v-text-field>
-            </v-col>
+    <v-alert
+      colored-border
+      type="info"
+      class="pa-0"
+      v-if="!selectedCategories.length > 0"
+    >
+      <small> Select atleast 1 category that best describes your post.</small>
+    </v-alert>
+    <v-container v-else class="pl-0">
+      <v-chip
+        v-for="category in selectedCategories"
+        :key="category"
+        small
+        label
+        color="cyan"
+        text-color="white"
+        class="mr-1 my-1"
+      >
+        <v-icon left>mdi-check</v-icon>
+        {{ category }}
+      </v-chip>
+    </v-container>
 
-            <v-col
-              v-for="category in filteredCategories"
-              :key="category.id"
-              class="shrink"
-            >
-              <v-chip
-                label
-                @click="toggleSelectedCategory({ id: category.id })"
-                :color="selectedCategories.includes(category.id) ? 'cyan' : ''"
-                :text-color="
-                  selectedCategories.includes(category.id) ? 'white' : ''
-                "
-              >
-                <v-icon left v-text="getCatIcon(category.id)"> </v-icon>
-                {{ category.id }}
-              </v-chip>
-            </v-col>
-          </v-row>
-        </v-container>
-      </v-expansion-panel-content>
-    </v-expansion-panel>
+    <v-btn
+      v-if="selectedCategories.length > 0"
+      color="gray"
+      text-color="white"
+      @click="clearCategorySelects()"
+      small
+    >
+      <v-icon left>mdi-autorenew</v-icon>
+      Reset
+    </v-btn>
+    <v-btn
+      v-if="selectedCategories.length > 0"
+      color="gray"
+      text-color="white"
+      @click="nextStep()"
+      small
+      class="ml-2"
+    >
+      Next
+    </v-btn>
+    <v-row align="center" justify="start">
+      <v-col cols="12">
+        <v-text-field
+          ref="search"
+          v-model="search"
+          full-width
+          hide-details
+          label="filter"
+          single-line
+          prepend-inner-icon="mdi-filter"
+        ></v-text-field>
+      </v-col>
+
+      <v-col
+        v-for="category in filteredCategories"
+        :key="category.id"
+        class="shrink"
+      >
+        <v-chip
+          label
+          @click="toggleSelectedCategory({ id: category.id })"
+          :color="selectedCategories.includes(category.id) ? 'cyan' : ''"
+          :text-color="selectedCategories.includes(category.id) ? 'white' : ''"
+        >
+          <v-icon left v-text="getCatIcon(category.id)"> </v-icon>
+          {{ category.id }}
+        </v-chip>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -118,6 +106,7 @@ export default {
       "deselectCategory",
       "toggleSelectedCategory",
       "clearCategorySelects",
+      "nextStep",
     ]),
     resetSearch() {
       this.search = "";

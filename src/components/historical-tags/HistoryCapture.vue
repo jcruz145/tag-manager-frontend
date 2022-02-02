@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container fluid class="pl-1">
     <v-toolbar elevation="0">
       <v-toolbar-title>{{ history.label }}</v-toolbar-title>
       <v-spacer></v-spacer>

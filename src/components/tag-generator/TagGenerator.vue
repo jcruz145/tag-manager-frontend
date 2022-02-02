@@ -1,40 +1,54 @@
 <template>
-  <v-container>
-    <v-card elevation="2">
-      <v-toolbar elevation="0">
-        <v-toolbar-title>Generate Tags</v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-btn
-          class="white--text"
-          color="cyan"
-          small
-          :disabled="noTagsGenerated"
-          @click="copyValue"
-        >
-          <v-icon left>mdi-content-copy</v-icon>
-          Copy
-        </v-btn>
-        <v-btn
-          class="ml-4 white--text"
-          color="cyan"
-          small
-          @click="generateTags()"
-          :disabled="!atLeastOneCategorySelected"
-        >
-          <v-icon left>mdi-autorenew</v-icon>
-          Generate
-        </v-btn>
-      </v-toolbar>
-      <v-container fluid>
-        <v-textarea :value="generatedTags" solo readonly auto-grow></v-textarea>
-      </v-container>
-    </v-card>
+  <v-container class="pl-0">
+    <v-toolbar elevation="0">
+      <v-toolbar-title><small>Tags</small></v-toolbar-title>
+      <v-spacer></v-spacer>
+
+      <v-btn
+        class="white--text"
+        color="cyan"
+        small
+        :disabled="noTagsGenerated"
+        @click="copyValue"
+      >
+        <v-icon left>mdi-content-copy</v-icon>
+        Copy
+      </v-btn>
+      <v-btn
+        class="ml-4 white--text"
+        color="cyan"
+        small
+        @click="generateTags()"
+        :disabled="!atLeastOneCategorySelected"
+      >
+        <v-icon left>mdi-autorenew</v-icon>
+        Generate
+      </v-btn>
+    </v-toolbar>
+    <div>
+      <v-textarea :value="generatedTags" filled readonly auto-grow></v-textarea>
+      <v-btn
+        block
+        class="white--text"
+        color="red"
+        small
+        v-if="!noTagsGenerated"
+        @click="clearAppData"
+      >
+        Reset
+      </v-btn>
+      <v-snackbar v-model="confirmCopy" timeout="800"> Copied! </v-snackbar>
+    </div>
   </v-container>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
 export default {
+  data: () => ({
+    confirmCopy: false,
+  }),
+
   computed: {
     ...mapGetters(["generatedTags", "atLeastOneCategorySelected"]),
     noTagsGenerated() {
@@ -43,9 +57,10 @@ export default {
   },
 
   methods: {
-    ...mapActions(["generateTags"]),
+    ...mapActions(["generateTags", "clearAppData"]),
     async copyValue() {
       await navigator.clipboard.writeText(this.generatedTags);
+      this.confirmCopy = true;
     },
   },
 };

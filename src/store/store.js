@@ -23,7 +23,13 @@ export const store = new Vuex.Store({
         value: ''
       },
     ],
-    generatedTags: ''
+    generatedTags: '',
+    stepper: {
+      tracker: 1,
+      welcomeSeen: true,
+      categoriesSeen: false,
+      historicalSeen: false,
+    }
   },
 
   getters: {
@@ -52,6 +58,9 @@ export const store = new Vuex.Store({
     },
     generatedTags: state => {
       return state.generatedTags;
+    },
+    stepperData: state => {
+      return state.stepper;
     }
   },
 
@@ -76,6 +85,10 @@ export const store = new Vuex.Store({
       state.histories.forEach(history => {
         history.value = '';
       });
+      state.stepper.categoriesSeen = false;
+      state.stepper.welcomeSeen = true;
+      state.stepper.historicalSeen = false;
+      state.stepper.tracker = 2;
     },
     clearHistory: (state, id) => {
       const histIndex = helpers.getIndexFromObjectArray(state.histories, id);
@@ -83,6 +96,18 @@ export const store = new Vuex.Store({
     },
     setQuantity: (state, idx) => {
       state.selectedQuantity = state.availableQuantities[idx];
+    },
+    setStepperTracker: (state, tracker) => {
+      state.stepper.tracker = tracker;
+    },
+    setCategoriesSeen: (state, seen) => {
+      state.stepper.categoriesSeen = seen;
+    },
+    setHistoricalSeen: (state, seen) => {
+      state.stepper.historicalSeen = seen;
+    },
+    nextStep: (state) => {
+      state.stepper.tracker++;
     },
     generateTags: (state) => {
       let tags = [], selectedTagsString = '', historical = '', overused = [], limited = [];
@@ -131,6 +156,24 @@ export const store = new Vuex.Store({
     setQuantity: ({ commit }, payload) => {
       commit('setQuantity', payload.idx);
     },
+    setStepperTracker: ({ commit }, payload) => {
+      commit('setStepperTracker', payload.tracker);
+      switch (payload.tracker) {
+        case 2:
+          commit('setCategoriesSeen', true);
+          break;
+      
+        default:
+          break;
+      }
+    },
+    setCategoriesSeen: ({ commit }, payload) => {
+      commit('setCategoriesSeen', payload.seen);
+    },
+    setHistoricalSeen: ({ commit }, payload) => {
+      commit('setHistoricalSeen', payload.seen);
+    },
+    nextStep: ({ commit }) => { commit('nextStep')},
     generateTags: ({ commit }) => {
       commit('generateTags');
     }
