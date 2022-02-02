@@ -10,9 +10,21 @@
         filter
         class="ml-1 my-1"
         small
+        label
       >
         {{ history.label }}
       </v-chip>
+      <v-spacer></v-spacer>
+      <v-btn
+        :color="noCompleteHistories ? '' : 'cyan'"
+        :class="noCompleteHistories ? '' : 'white--text'"
+        small
+        class="ml-1 my-1"
+        @click="nextStep"
+      >
+        <span v-if="noCompleteHistories">skip</span>
+        <span v-else>next</span>
+      </v-btn>
     </v-col>
     <v-col>
       <history-capture
@@ -35,8 +47,13 @@ export default {
 
   computed: {
     ...mapGetters(["histories", "completeHistories"]),
+    noCompleteHistories() {
+      return this.completeHistories.length <= 0;
+    },
   },
 
-  data: () => ({}),
+  methods: {
+    ...mapActions(["nextStep"]),
+  },
 };
 </script>
