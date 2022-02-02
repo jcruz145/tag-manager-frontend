@@ -53,23 +53,20 @@
             <historical-tags></historical-tags>
           </v-stepper-content>
 
-          <!-- STEPPER 4 - Select Quantity -->
+          <!-- STEPPER 4 - Generate Tags -->
           <v-stepper-step
             step="4"
             @click="stepperCount = 4"
             :complete="completeHistories.length > 0"
           >
-            Select Quantity
+            Generate Tags
           </v-stepper-step>
-          <v-stepper-content step="4"> </v-stepper-content>
+          <v-stepper-content step="4">
+            <quantity-selector></quantity-selector>
+            <tag-generator></tag-generator>
+          </v-stepper-content>
         </v-stepper>
       </v-container>
-    </v-main>
-    <v-main>
-      <v-expansion-panels>
-        <quantity-selector></quantity-selector>
-        <tag-generator></tag-generator>
-      </v-expansion-panels>
     </v-main>
   </v-app>
 </template>
