@@ -25,24 +25,30 @@
         Generate
       </v-btn>
     </v-toolbar>
-
-    <v-textarea :value="generatedTags" filled readonly auto-grow></v-textarea>
-    <v-btn
-      block
-      class="white--text"
-      color="red"
-      small
-      v-if="!noTagsGenerated"
-      @click="clearAppData"
-    >
-      Reset
-    </v-btn>
+    <div>
+      <v-textarea :value="generatedTags" filled readonly auto-grow></v-textarea>
+      <v-btn
+        block
+        class="white--text"
+        color="red"
+        small
+        v-if="!noTagsGenerated"
+        @click="clearAppData"
+      >
+        Reset
+      </v-btn>
+      <v-snackbar v-model="confirmCopy" timeout="800"> Copied! </v-snackbar>
+    </div>
   </v-container>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
 export default {
+  data: () => ({
+    confirmCopy: false,
+  }),
+
   computed: {
     ...mapGetters(["generatedTags", "atLeastOneCategorySelected"]),
     noTagsGenerated() {
@@ -54,6 +60,7 @@ export default {
     ...mapActions(["generateTags", "clearAppData"]),
     async copyValue() {
       await navigator.clipboard.writeText(this.generatedTags);
+      this.confirmCopy = true;
     },
   },
 };
