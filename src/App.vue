@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar color="white" app dense elevate-on-scroll>
+    <v-app-bar dark app dense elevate-on-scroll>
       <v-icon>mdi-pound-box</v-icon>
       <v-app-bar-title>Tag Manager</v-app-bar-title>
       <v-spacer></v-spacer>
@@ -20,10 +20,18 @@
             Welcome to TagManager!
           </v-stepper-step>
           <v-stepper-content step="1">
-            This application helps you optimize your social media posts by
-            helping you choose the right hashtags to drive meaningful and
-            efficient discovery of your content.
-            <v-btn small class="ml-1 my-4" @click="nextStep"> next </v-btn>
+            <v-row>
+              <v-col cols="12"
+                >This application helps you optimize your social media posts by
+                helping you choose the right hashtags to drive meaningful and
+                efficient discovery of your content.</v-col
+              >
+              <v-col cols="12"
+                ><v-btn small class="ml-1 my-1" @click="nextStep">
+                  next
+                </v-btn></v-col
+              >
+            </v-row>
           </v-stepper-content>
 
           <!-- STEPPER 2 - Select Categories -->
@@ -118,3 +126,9 @@ export default {
   },
 };
 </script>
+
+<style>
+.theme--light.v-application {
+  background-color: lemonchiffon !important;
+}
+</style>
